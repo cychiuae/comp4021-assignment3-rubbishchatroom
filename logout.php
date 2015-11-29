@@ -38,6 +38,7 @@ $xmlh->saveFile();
 
 unset($_SESSION['name']);
 unset($_COOKIE["name"]);
+setcookie('name', null, time() - 3600);
 header('Location: login.php');
 
 ?>

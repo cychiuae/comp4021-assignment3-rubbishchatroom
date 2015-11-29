@@ -33,6 +33,52 @@ print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
             }
             return false;
         }
+
+        function setSendColor(color) {
+            document.getElementById('message-color').value = color;
+            setCookie('msgColor', color);
+        }
+
+        function setCookie(name, value, expires, path, domain, secure) {
+            var curCookie = name + "=" + escape(value) +
+                ((expires) ? "; expires=" + expires.toGMTString() : "") +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+            document.cookie = curCookie;
+        }
+
+
+        //
+        // Get a cookie
+        //
+        function getCookie(name) {
+            var dc = document.cookie;
+            var prefix = name + "=";
+            var begin = dc.indexOf("; " + prefix);
+            if (begin == -1) {
+                begin = dc.indexOf(prefix);
+                if (begin != 0) return null;
+            } else
+                begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1)
+                end = dc.length;
+            return unescape(dc.substring(begin + prefix.length, end));
+        }
+
+
+        //
+        // Delete a cookie
+        //
+        function deleteCookie(name, path, domain) {
+            if (get_cookie(name)) {
+                document.cookie = name + "=" + 
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+            }
+        }
         //]]>
         </script>
     </head>
@@ -49,18 +95,18 @@ print "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
                 <tr>
                     <td>
                         <input class="button" type="submit" value="Send Your Message" style="width: 200px" />
-                        <input id="message-color" type="hidden" name="messageColor" value="#000"/>
+                        <input id="message-color" type="hidden" name="messageColor" value="<?php echo isset($_COOKIE['msgColor']) ? $_COOKIE['msgColor'] : '#000' ?>"/>
                         <span>
                             <span>
                                 Choose your color:
                             </span>
                             <span>
-                                <button class="color-button" style="background: #000" onclick="document.getElementById('message-color').value='#000'; return false;"></button>
-                                <button class="color-button" style="background: #1ff" onclick="document.getElementById('message-color').value='#1ff'; return false;"></button>
-                                <button class="color-button" style="background: #f00" onclick="document.getElementById('message-color').value='#f00'; return false;"></button>
-                                <button class="color-button" style="background: #00f" onclick="document.getElementById('message-color').value='#00f'; return false;"></button>
-                                <button class="color-button" style="background: #0f0" onclick="document.getElementById('message-color').value='#0f0'; return false;"></button>
-                                <button class="color-button" style="background: #50f" onclick="document.getElementById('message-color').value='#50f'; return false;"></button>
+                                <button class="color-button" style="background: #000" onclick="setSendColor('#000');return false;"></button>
+                                <button class="color-button" style="background: #1ff" onclick="setSendColor('#1ff');return false;"></button>
+                                <button class="color-button" style="background: #f00" onclick="setSendColor('#f00');return false;"></button>
+                                <button class="color-button" style="background: #00f" onclick="setSendColor('#00f');return false;"></button>
+                                <button class="color-button" style="background: #0f0" onclick="setSendColor('#0f0');return false;"></button>
+                                <button class="color-button" style="background: #50f" onclick="setSendColor('#50f');return false;"></button>
                             </span>
                         </span>
                     </td>

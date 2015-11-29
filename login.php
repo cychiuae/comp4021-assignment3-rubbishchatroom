@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	// set the name to the cookie
 	setcookie("name", $_POST["name"]);
 	$_SESSION['name'] = $_POST["name"];
+    setcookie("msgColor", null, time() - 3600);
 	// Cookie done, redirect to client.php (to avoid reloading of page from the client)
 	header("Location: client.php");
 }
